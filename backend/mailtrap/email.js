@@ -1,5 +1,5 @@
 import { ApiError } from "../utils/ApiError.js"
-import { VERIFY_EMAIL_TEMPLATE, WELCOME_TEMPLATE } from "./emailTemplate.js"
+import { PASSWORD_RESET_SUCCESS_TEMPLATE, RESET_PASSWORD_TEMPLATE, VERIFY_EMAIL_TEMPLATE, WELCOME_TEMPLATE } from "./emailTemplate.js"
 import { mailTrapClient, sender } from "./mailtrap.config.js"
 
 export const sendVerificationEmail = async(email , verificationToken)=>{
@@ -18,7 +18,7 @@ export const sendVerificationEmail = async(email , verificationToken)=>{
         
     } catch (error) {
         console.log(error)
-        throw new ApiError("Error sending verification email")
+        throw new ApiError(400 , "Error sending verification email")
     }
 
 }
@@ -41,5 +41,39 @@ export const sendWelcomeEmail = async(email , name)=>{
    } catch (error) {
  throw new ApiError(400 , "Error In sending Welcome Email")
     
+   }
+}
+
+export const sendResetPassword = async(email , resetURL)=>{
+   try {
+     const recipient =[{email}]
+     const response = await mailTrapClient.send({
+         from:sender,
+         to:recipient,
+         subject:"Reset Your Password",
+         html:RESET_PASSWORD_TEMPLATE.replace("{resetURL}" , resetURL),
+         category:"Password reset"
+     })
+     console.log("Reset Mail sent", response)
+   } catch (error) {
+    throw new ApiError(400 , "Rest Mail not sent")
+    
+   }
+}
+
+export const sendResetSuccessMail = async(email)=>{
+   try {
+     const recipient =[{email}]
+     const response = await mailTrapClient.send({
+         from:sender,
+         to:recipient,
+         subject:"Password Reset Successfully",
+         html:PASSWORD_RESET_SUCCESS_TEMPLATE,
+         category:"Password Reset Successful"
+ 
+     })
+     console.log("Reset Password Successful" , response)
+   } catch (error) {
+    throw new ApiError(400 , "Reset Password Not Successful")
    }
 }

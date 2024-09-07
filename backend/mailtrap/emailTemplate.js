@@ -74,19 +74,6 @@ export const RESET_PASSWORD_TEMPLATE = `
       color: #51545e;
       margin-bottom: 20px;
     }
-    .reset-btn {
-      display: inline-block;
-      background-color: #e63946;
-      color: #ffffff;
-      padding: 12px 24px;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      font-size: 16px;
-    }
-    .reset-btn:hover {
-      background-color: #d62839;
-    }
     .footer {
       text-align: center;
       font-size: 12px;
@@ -115,7 +102,10 @@ export const RESET_PASSWORD_TEMPLATE = `
       <td class="content">
         <p>Hello,</p>
         <p>We received a request to reset your password. Click the button below to proceed.</p>
-        <a href="https://example.com/reset-password" class="reset-btn">Reset Password</a>
+        <a href="{resetURL}" class="reset-btn" 
+           style="display: inline-block; background-color: #007bff; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px; transition: background-color 0.3s ease, transform 0.2s ease;">
+          Reset Password
+        </a>
       </td>
     </tr>
     <tr>
@@ -123,18 +113,11 @@ export const RESET_PASSWORD_TEMPLATE = `
         <p>If you did not request a password reset, please ignore this email or contact support if you have any concerns.</p>
       </td>
     </tr>
-    <tr>
-      <!--<td class="footer">-->
-      <!--  <p>If you’re having trouble clicking the button, copy and paste the following URL into your browser:</p>-->
-      <!--  <p><a href="https://example.com/reset-password" style="color: #e63946; text-decoration: none;">https://example.com/reset-password</a></p>-->
-      <!--  <p>&copy; 2024 Your Company. All rights reserved.</p>-->
-      <!--</td>-->
-    </tr>
   </table>
 </body>
 </html>
-
 `
+
 
 export const PASSWORD_RESET_SUCCESS_TEMPLATE=`
 <!DOCTYPE html>
@@ -169,8 +152,8 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE=`
       padding-bottom: 20px;
     }
     .header h1 {
-      font-size: 24px;
-      color: #333333;
+      font-size: 28px;
+      color: #28a745;
       margin: 0;
     }
     .content {
@@ -181,10 +164,22 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE=`
       color: #51545e;
       margin-bottom: 20px;
     }
-    .success-icon {
-      font-size: 50px;
-      color: #28a745;
+    .success-icon-container {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #28a745;
+      text-align: center;
+      line-height: 80px;
       margin-bottom: 20px;
+      animation: pop 0.3s ease-out;
+    }
+    .success-icon {
+      font-size: 40px;
+      color: #ffffff; /* White color for the tick */
+      display: inline-block;
+      vertical-align: middle;
     }
     .footer {
       text-align: center;
@@ -196,13 +191,28 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE=`
       margin: 0;
     }
     a {
-      color: #007bff;
+      color: #28a745;
       text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #155724;
+      text-decoration: underline;
+    }
+    .automated-message {
+      font-size: 12px;
+      color: #999999;
+      padding-top: 10px;
     }
     @media only screen and (max-width: 600px) {
       .content p {
         font-size: 14px;
       }
+    }
+    @keyframes pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
@@ -215,7 +225,9 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE=`
     </tr>
     <tr>
       <td class="content">
-        <div class="success-icon">✔️</div>
+        <div class="success-icon-container">
+          <div class="success-icon">✔</div>
+        </div>
         <p>Hello,</p>
         <p>Your password has been successfully reset. You can now log in with your new password.</p>
         <p>If you did not make this change, please <a href="https://example.com/support">contact our support team</a> immediately.</p>
@@ -224,11 +236,13 @@ export const PASSWORD_RESET_SUCCESS_TEMPLATE=`
     <tr>
       <td class="footer">
         <p>&copy; 2024 Auth-System. All rights reserved.</p>
+        <p class="automated-message">This is an automated message. Please do not reply to this email.</p>
       </td>
     </tr>
   </table>
 </body>
 </html>
+
 `
 export const WELCOME_TEMPLATE=`
 <!DOCTYPE html>

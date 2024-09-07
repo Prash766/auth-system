@@ -1,27 +1,24 @@
-import mongoose from "mongoose"
-import { ApiError } from "../utils/ApiError.js"
+import mongoose from "mongoose";
+import { ApiError } from "../utils/ApiError.js";
 
-const errorMiddleware = async(err , req, res, next)=>{
-let error = err
-if(!(error instanceof ApiError)){
-    const statusCode = error.statusCode || error instanceof mongoose.Error? 400: 500
-    const message = error.message || "Something went wrong"
-    error = new ApiError(statusCode , message, error?.errors)
+const errorMiddleware = (err, req, res, next) => {
+  let error = err;
+  if (!(error instanceof ApiError)) {
+    const statusCode = error.statusCode || (error instanceof mongoose.Error ? 400 : 500);
+    const message = error.message || "Something went wrong";
+    error = new ApiError(statusCode, message, error?.errors);
+  }
 
-}
-
-const response = {
-    ...error,
+  const response = {
     message: error.message,
-    ...(process.env.NODE_ENV === "development" ? { stack: error.stack } : {}), // Error stack traces should be visible in development for debugging
+    statusCode: error.statusCode,
+    ...(process.env.NODE_ENV === "development" ? { stack: error.stack } : {}),
   };
-  return res.status(error.statusCode).json({
-    success:false,
-    response
-});
 
-}
+  return res.status(error.statusCode || 500).json({
+    success: false,
+    error: response,
+  });
+};
 
-export {
-    errorMiddleware
-}
+export { errorMiddleware };
