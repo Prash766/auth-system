@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import bcrypt from 'bcrypt'
 
 const userSchema = new mongoose.Schema({
     email:{
@@ -17,7 +18,7 @@ const userSchema = new mongoose.Schema({
     },
     lastLogin:{
         type:String,
-        required:true
+        default:Date.now()
     },
     isVerified:{
         type:Boolean,
@@ -32,8 +33,8 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save' ,async function(next){
     if(!this.isModified("password")) return next()
-    this.password = await bcrypt.hash("password", 10)
-next()
+        this.password = await bcrypt.hash(this.password, 10);
+    next()
 
 })
 
