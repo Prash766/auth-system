@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Mail } from 'lucide-react'
+import PasswordStrengthMeter from '../components/PasswordStrength'
 
 const SignupPage = () => {
+
+  const [fullName, setFullName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-800">
       <motion.div
@@ -22,7 +30,7 @@ const SignupPage = () => {
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className='space-y-6'
+          className='space-y-4'
         >
           <motion.div
             initial={{ x: -20, opacity: 0 }}
@@ -34,6 +42,9 @@ const SignupPage = () => {
             </label>
             <input
               type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+
               id="fullname"
               className="w-full px-3 py-2 bg-white bg-opacity-20 border border-gray-300 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
               placeholder="Enter Full Name"
@@ -51,6 +62,8 @@ const SignupPage = () => {
             </label>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               id="email"
               className="w-full px-3 py-2 bg-white bg-opacity-20 border border-gray-300 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
               placeholder="you@example.com"
@@ -67,6 +80,8 @@ const SignupPage = () => {
             </label>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               id="password"
               className="w-full px-3 py-2 bg-white bg-opacity-20 border border-gray-300 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
               placeholder="••••••••"
@@ -74,11 +89,14 @@ const SignupPage = () => {
             />
           </motion.div>
 
+
+          {/* Password strength*/}
+          <PasswordStrengthMeter password={password} />
           <motion.button
             whileTap={{ scale: 0.8 }}
             className='bg-purple-600 w-full rounded-md p-2 font-semibold text-white hover:bg-purple-700'
           >
-            Sign In
+            Sign Up
           </motion.button>
 
           <motion.p
