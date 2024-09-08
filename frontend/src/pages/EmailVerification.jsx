@@ -1,6 +1,8 @@
 import React from 'react'
 import {motion} from 'framer-motion'
 import OTP from '../components/OTP'
+import { useRecoilValue } from 'recoil'
+
 
 function EmailVerification() {
   return (
@@ -29,7 +31,6 @@ function EmailVerification() {
     Enter the 6-digit code sent to your email
 
     </motion.p>
-
 
     <OTP/>
 
