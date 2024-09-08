@@ -116,6 +116,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     await sendResetPassword(user.email, `${process.env.FRONTEND_URL}/reset-password/${resetToken}`)
     return res.status(200).json({
         success: true,
+        user:user,
         message: "Reset Password mail sent successfully"
     })
 
@@ -148,7 +149,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     await user.save()
 
     await sendResetSuccessMail(user.email)
-
+    res.clearCookie("token")
     return res.status(200).json({
         success: true,
         message: "Password Reset Successfully"
@@ -159,7 +160,7 @@ const resetPassword = asyncHandler(async (req, res) => {
 
 const checkAuth = asyncHandler(async(req ,res)=>{
     const userid = req.user
-    console.log(userid)
+    // console.log(userid)
     if(!req.user) throw new ApiError(400 , "User not Found")
         const user = await User.findById(userid).select("-password")
     console.log(user)

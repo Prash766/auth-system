@@ -4,7 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 
 const verifyJWT = asyncHandler(async (req, res, next) => {
     const token = req.cookies?.token || req.header('Authorization')?.replace("Bearer ", "").trim(); // Trim whitespace
-    console.log(token);
+    // console.log(token);
 
     if (!token) {
         throw new ApiError(400, "Unauthorized, Invalid Token");
@@ -12,8 +12,6 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
 
     try {
         const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET); // Ensure the token is validated with the secret key
-        console.log(decodedToken);
-
         req.user = decodedToken._id; 
         next();
     } catch (error) {
